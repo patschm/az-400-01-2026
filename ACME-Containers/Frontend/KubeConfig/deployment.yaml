@@ -20,7 +20,7 @@ spec:
         - name: REST_URL
           value: "http://20.50.253.61/calculator/"  # "calcapi" for ClusterIP
         - name: CON_APPCONFIG
-          value: "Endpoint=https://ps-app-config.azconfig.io;Id=BNnC-l9-s0:na8F2EWbGTPJBlQ3+06o;Secret=iVmf6S/fNUp3xroO9jHmM9KveEPYcQibUUV/48ytPy0="  #"#{AppConfig}#"    # Used with 'Replace Token' task from Market Place
+          value: "<Your Endpoint here>"  #"#{AppConfig}#"    # Used with 'Replace Token' task from Market Place
         resources:
           limits:
             memory: "128Mi"
