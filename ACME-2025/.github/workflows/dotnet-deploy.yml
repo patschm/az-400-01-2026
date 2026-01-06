@@ -1,0 +1,100 @@
+# Prep 1
+# Create a Microsoft Entra application with a service principal by Azure portal, Azure CLI, or Azure PowerShell.
+# Create a client secret for your service principal by Azure portal, Azure CLI, or Azure PowerShell.
+# Copy the values for Client ID, Client Secret, Subscription ID, and Directory (tenant) ID to use later in your GitHub Actions workflow.
+# Assign an appropriate role to your service principal by Azure portal, Azure CLI, or Azure PowerShell.
+
+#Prep 2
+# Create a GitHub secret (AZURE_CREDENTIALS) with the following JSON structure:
+# {
+#     "clientSecret":  "",
+#     "subscriptionId":  "",
+#     "tenantId":  "",
+#     "clientId":  ""
+# }
+name: Build and Deploy .NET Project
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+env:
+  DOTNET_VERSION: '8.0.x'
+  RESOURCE_GROUP: 'ACME-Calculator-RG'
+  WEBAPP_NAME: 'ps-acme-web-calculator'
+  PROJECT_NAME: './ACME.Web.Calculator/ACME.Web.Calculator.csproj'
+  PROJECT_FILENAME: 'ACME.Web.Calculator'
+  
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.PROJECT_NAME }}
+    - name: Build
+      run: dotnet build --no-restore ${{ env.PROJECT_NAME }}
+    - name: Publish
+      run: dotnet publish --configuration Release --output /${{ env.PROJECT_FILENAME }} ${{ env.PROJECT_NAME }}
+    - name: Zip publish output
+      run: |
+        mkdir -p /drop
+        powershell Compress-Archive -Path '/${{ env.PROJECT_FILENAME }}/*.*'  -DestinationPath '/drop/${{ env.PROJECT_FILENAME }}.zip'
+    - name: Copy files to drop folder
+      run: |
+        cp -r ./ARM/*.bicep /drop
+        cp -r ./SCRIPTS/*.ps1 /drop
+    - name: Upload publish artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: drop
+        path: /drop
+  prepare:
+    needs: build
+    runs-on: windows-latest
+    permissions:
+      id-token: write
+    steps:
+    - name: download publish artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: drop
+    - name: Login to Azure
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        enable-AzPSSession: true
+    - name: Create Resource Group if not exists
+      uses: azure/powershell@v2
+      with:
+        inlineScript: ./CreateResourceGroup.ps1 -resourceGroupName ${{ env.RESOURCE_GROUP }} -location 'westeurope'
+        azpsVersion: 'latest'
+    - name: Deploy ARM template
+      uses: azure/arm-deploy@v2
+      with:
+        resourceGroupName: ${{ env.RESOURCE_GROUP }}
+        template: webapp-basic.bicep
+        parameters: app_name=${{ env.WEBAPP_NAME }}
+  deploy:
+    needs: prepare
+    runs-on: windows-latest
+    steps:
+    - name: download publish artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: drop
+    - name: Login to Azure
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        enable-AzPSSession: true
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v3
+      with:
+        app-name: ${{ env.WEBAPP_NAME }}
+        package: ${{ env.PROJECT_FILENAME }}.zip    
+    
