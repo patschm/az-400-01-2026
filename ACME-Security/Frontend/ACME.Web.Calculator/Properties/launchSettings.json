@@ -14,7 +14,7 @@
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "APPCONFIG": "Endpoint=https://ps-config.azconfig.io;Id=1IX+;Secret=8SXiNgWUDeBHrtiBqApBMt1Tv9oU8QmjjsDnXVTUIXpIotwynNrYJQQJ99BGAC5RqLJJs58ZAAACAZAC3MLQ"
+        "APPCONFIG": "<Your Endpoint Here>"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7066;http://localhost:5136"
