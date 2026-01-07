@@ -1,0 +1,17 @@
+name: 1-Starter
+on:
+  # push:
+  #   branches:
+  #     - main
+  # pull_request:
+  #   branches:
+  #     - main
+  workflow_dispatch: # manual start
+
+jobs:
+  example-starter:
+    runs-on: windows-latest
+    steps:
+    - name: step 1
+      run: |
+        echo "Hello World"

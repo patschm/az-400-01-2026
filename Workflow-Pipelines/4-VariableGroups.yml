@@ -1,0 +1,16 @@
+name: 4-VariableGroups
+on: workflow_dispatch
+
+# Not literally available but something similar
+# variables: Use env or repository defined variable (repo home -> settings -> Environments)
+
+jobs:
+  example-groups:
+    runs-on: windows-latest
+    environment: 4-Demo-Group
+    steps:
+    - name: Groups and Secrets
+      run: |
+        echo 'My name is ${{vars.FIRST}} ${{vars.LAST}}'
+        echo 'My secret is ${{secrets.SECRET}}'
+        

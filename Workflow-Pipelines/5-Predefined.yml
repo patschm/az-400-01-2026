@@ -1,0 +1,15 @@
+name: 5-Predefined
+on: workflow_dispatch
+
+jobs:
+  demo-predefined:
+    runs-on: windows-latest
+    steps:
+      - name: Predefined
+        run: |
+          echo "github.workspace: ${{github.workspace}}: The local path on the agent where any artifacts are copied to before being pushed to their destination."
+          echo "github.run_id: ${{github.run_id}}: The ID of the build."
+          echo "github.workflow: ${{github.workflow}}: The name of the build definition."
+          echo "github.run_number: ${{github.run_number}}: The name of the completed build."
+          echo "runner.tmp: ${{runner.tmp}}: The tmp directory on the agent"
+          

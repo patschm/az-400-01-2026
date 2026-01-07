@@ -1,0 +1,16 @@
+name: 3-Variables
+on: workflow_dispatch
+
+# varaibles: Use env or repository defined variable (repo home -> settings -> secrets and variables)
+env:
+  a: 3
+  b: 4
+
+jobs:
+  job-variables:
+    runs-on: windows-latest
+    steps:
+      - name: add
+        run: |
+          set /a sum=${{env.b}}+${{env.b}}
+          echo 'The sum of ${{env.a}} and ${{env.b}} is %sum%'

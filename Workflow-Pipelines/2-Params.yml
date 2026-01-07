@@ -1,0 +1,19 @@
+name: 2-Params
+on: 
+  workflow_dispatch:
+    inputs: 
+      yourName:
+        description: Put your name here
+        type: string
+        default: World
+        options:
+          - World
+          - Azure
+jobs:
+  job-params:
+    runs-on: windows-latest
+    steps:
+      - name: Echo your name
+        run: |
+          echo Hello ${{inputs.yourName}}
+
