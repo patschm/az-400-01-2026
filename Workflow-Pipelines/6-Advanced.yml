@@ -1,0 +1,33 @@
+name: 6-Advanced
+on: workflow_dispatch
+
+jobs:
+  some_task:
+    runs-on: windows-latest
+    steps:
+      - name: Some Task
+        run: echo "Performing some task"
+  some_condition:
+    needs: some_task
+    if: github.ref == 'refs/heads/master'
+    runs-on: windows-latest
+    steps:
+      - name: Some Condition
+        run: echo "This runs only on the master branch"
+  some_other_condition:
+    needs: some_task
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: windows-latest
+    steps:
+      - name: Some Other Condition
+        run: echo "This runs only on workflow_dispatch events"
+  if_errror:
+    runs-on: windows-latest
+    steps:
+      - name: This will fail
+        run: |
+          echo "This step will fail"
+          exit 1
+      - name: Handle failure
+        if: failure()
+        run: echo "The previous step failed, handling error..."

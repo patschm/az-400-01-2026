@@ -42,8 +42,8 @@ stages:
             packagesToPush: '$(Pipeline.Workspace)/drop/ACME.Business.Calculator.*.nupkg'
             publishVstsFeed: 'ACME-Distributed/ACME-Feed'
             allowPackageConflicts: true
-            Major: '$(Major)'
-            Minor: '$(Minor)' 
-            Patch: '$(Patch)'
+            majorVersion: '$(Major)'
+            minorVersion: '$(Minor)'
+            patchVersion: '$(Patch)'
           
       

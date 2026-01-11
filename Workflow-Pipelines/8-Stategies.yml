@@ -1,0 +1,22 @@
+name: 8-Stategies
+on: workflow_dispatch
+
+jobs:
+  requirements:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        dotnet: [ '8.0', '9.0', '10.0' ] 
+        animals: [cat, dog]
+        exclude:
+          - os: windows-latest
+            dotnet: '8.0'  # Exclude .NET 8.0 on Windows
+          - os: ubuntu-latest
+            dotnet: '9.0' # Exclude .NET 9.0 on Ubuntu
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: OS and .NET version
+        run: |
+          echo "Using .NET version ${{ matrix.dotnet }} on ${{ matrix.os }} with animal ${{ matrix.animals }}"
+          
+        

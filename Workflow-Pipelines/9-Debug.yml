@@ -1,0 +1,23 @@
+name: 9-Debug
+on: workflow_dispatch
+
+jobs:
+  debug-job:
+    runs-on: windows-latest
+    environment: 9-Debug
+    steps:
+      - name: Print debug information
+        if: env.ACTIONS_STEP_DEBUG == 'true'
+        run: |
+          echo "Debugging Information:"
+          echo "======================"
+          echo "Runner OS: $RUNNER_OS"
+          echo "Workflow: $GITHUB_WORKFLOW"
+          echo "Event: $GITHUB_EVENT_NAME"
+          echo "Current Date and Time: $(date)"
+          echo "System Information:"
+          systeminfo
+          echo "Environment Variables:"
+          set
+          echo "Disk Space Information:"
+          wmic logicaldisk get size,freespace,caption 

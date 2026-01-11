@@ -1,0 +1,15 @@
+name: 10-External
+on:
+  workflow_dispatch 
+
+jobs:
+  external-job:
+    uses: ./.github/workflows/10a-External-Script.yml
+    with:
+      name: "Called from 10-External workflow"
+  final-job:
+    runs-on: windows-latest
+    steps:
+      - name: Final step
+        run: |
+          echo "This is the final step of the external job."
