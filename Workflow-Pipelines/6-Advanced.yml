@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: Some Other Condition
         run: echo "This runs only on workflow_dispatch events"
-  if_errror:
+  if_error:
     runs-on: windows-latest
     steps:
       - name: This will fail

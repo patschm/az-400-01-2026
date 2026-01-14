@@ -7,7 +7,8 @@ on: workflow_dispatch
 jobs:
   example-groups:
     runs-on: windows-latest
-    environment: 4-Demo-Group
+    environment: 
+    - 4-Demo-Group
     steps:
     - name: Groups and Secrets
       run: |

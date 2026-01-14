@@ -32,7 +32,7 @@ spec:
 #      replicas: 2
       containers:
       - name: calculator-api
-        image: psrepo.azurecr.io/backend:#{nummer}#   # Using latest is generally discouraged
+        image: psmaersk.azurecr.io/backend:#{nummer}#   # Using latest is generally discouraged
         imagePullPolicy: Always
         resources:
           limits:
