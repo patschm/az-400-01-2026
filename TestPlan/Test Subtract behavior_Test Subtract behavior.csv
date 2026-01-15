@@ -1,0 +1,13 @@
+﻿ID,Work Item Type,Title,Test Step,Step Action,Step Expected,Area Path,Assigned To,State
+"9","Test Case","Subtract Behavior",,,,"ACME-Basic\Backend","Patrick Schmidt <pschmidt@pasit.nl>","Design"
+,,,"1","Load the calculator page in the bropwser","
+",,,
+,,,"2","In field A give value 10","
+",,,
+,,,"3","In field B give value 20","
+",,,
+,,,"4","Press Subtract button","
+",,,
+,,,"5","Check if the result is -10","
+",,,
+,,,"6",,,,,
