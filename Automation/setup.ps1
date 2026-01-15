@@ -6,7 +6,7 @@ if(-not ($sub)) {
 
 $resourceGroup = "automation-rg"
 $automationAccount = "ps-automon"
-$userAssignedManagedIdentity = "ps-automin-identity"
+$userAssignedManagedIdentity = "ps-automon-identity"
 
 $role1 = "DevTest Labs User"
 
